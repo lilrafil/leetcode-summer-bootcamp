@@ -1,229 +1,172 @@
-# ⚡ Greedy Algorithms: Making the Best Local Choice
 
-## 🔍 What is a Greedy Algorithm?
+# 🪟 Sliding Window: Mastering Efficient Range-Based Algorithms
 
-A **greedy algorithm** builds up a solution piece by piece, always choosing the option that looks best at the moment — the **locally optimal choice** — with the hope that this leads to a globally optimal solution.
+## 🔍 What is Sliding Window?
 
-> 🧠 **Key Idea**: "Take the best you can right now, and repeat."
+The **sliding window** is a powerful technique used for problems involving **contiguous subarrays** or substrings. It helps **reduce the time complexity** of brute-force solutions by avoiding redundant calculations.
 
----
-
-## 📌 When to Use Greedy?
-
-Use greedy algorithms when:
-- You need to **optimize** (maximize/minimize) something.
-- The problem exhibits the **greedy choice property**:
-  > A global optimum can be arrived at by selecting a local optimum.
-- The problem has **optimal substructure**:
-  > An optimal solution to the problem contains optimal solutions to subproblems.
-
-> ✅ Always validate: Greedy doesn’t work for every problem. Prove its correctness or compare with brute-force/DP.
+> 🧠 **Key Idea**: Instead of re-processing the entire window on every iteration, we **slide** the window and update relevant data incrementally.
 
 ---
 
-## 🧱 How It Works
+## 🧩 When to Use It?
 
-Greedy algorithms typically:
-1. **Sort** or arrange elements based on some metric (value, deadline, etc.).
-2. Make **one decision at a time** based on local information.
-3. Never revise past decisions.
-4. Continue until no further action is possible.
+Use sliding window when the problem:
+- Involves a **subarray or substring** in a linear data structure (array/string).
+- Asks for:
+    - Maximum/minimum sum/length
+    - Longest/shortest subarray with some property
+    - Count of substrings with constraints
+- Has a **fixed-size window** or **variable-size** based on some condition.
 
 ---
 
-## 🛠 Greedy Strategy Template
+## 🛠 Types of Sliding Window
 
+### 1. **Fixed-size window**
+Used when the window size is given explicitly (e.g. size `k`).
+
+**Template:**
 ```python
-# Step 1: Sort or prioritize
-items.sort(key=your_criteria)
+for i in range(len(nums)):
+    window_sum += nums[i]
 
-# Step 2: Iterate and take best option
-for item in items:
-    if condition:
-        take(item)
+    if i >= k - 1:
+        result.append(window_sum)
+        window_sum -= nums[i - k + 1]
 ```
 
 ---
 
-## ⭐ Popular Greedy Problems and Their Patterns
+### 2. **Variable-size window**
+Used when you grow/shrink the window to meet a condition.
 
-| Problem | Pattern | Strategy |
-|--------|---------|----------|
-| Activity Selection | Interval Scheduling | Sort by end time |
-| Fractional Knapsack | Value Density | Sort by value/weight |
-| Gas Station | Circular Reach | Simulate gain vs cost |
-| Jump Game | Reachability | Track farthest index |
-| Task Scheduler | Greedy Scheduling | Count frequencies |
-| Assign Cookies | Match Smallest Fit | Greedy match |
-| Partition Labels | Greedy Partitioning | Track last occurrence |
-
----
-
-## ⛽ In-Depth: Gas Station Problem
-
-> 🔗 [LeetCode 134 - Gas Station](https://leetcode.com/problems/gas-station/)
-
-### 🚗 Problem:
-There are `n` gas stations arranged in a circle. You are given two integer arrays `gas` and `cost` where:
-- `gas[i]` is the amount of gas at station `i`.
-- `cost[i]` is the gas needed to travel from station `i` to station `i+1`.
-
-Return the starting station index if you can travel around the circuit once, otherwise return -1.
-
-### 🧠 Intuition:
-- If the **total gas < total cost**, it's impossible.
-- Else, find a point where the **net fuel stays non-negative** from that index.
-
-### 🧪 Greedy Insight:
-- If you run out of gas at station `i`, you can't start from any point between last failed and `i`.
-- Restart from `i+1`.
-
-### ✅ Code:
+**Template:**
 ```python
-def can_complete_circuit(gas, cost):
-    total, tank, start = 0, 0, 0
+start = 0
+for end in range(len(nums)):
+    # Expand the window by moving `end`
 
-    for i in range(len(gas)):
-        diff = gas[i] - cost[i]
-        tank += diff
-        total += diff
+    while <window violates condition>:
+        # Shrink the window by moving `start`
 
-        if tank < 0:
-            start = i + 1
-            tank = 0
-
-    return start if total >= 0 else -1
-```
-
-### ⏱ Time Complexity:
-- O(n), single pass
-
----
-
-## 📉 Visual Analogy
-
-> Think of greedy like taking the highest coin value first in change-making, or picking the closest deadline in a job scheduler.
-
-```
-Choices:        Sorted Choices:
-[5, 1, 10]  =>  [10, 5, 1]    ⬅️ take highest first
+    # Check or update result
 ```
 
 ---
 
-## 🧪 Classic Greedy Examples
+## 📉 Visual Concept
 
-### ✅ Activity Selection (Non-overlapping Intervals)
-```python
-def activity_selection(intervals):
-    intervals.sort(key=lambda x: x[1])
-    count = 1
-    end = intervals[0][1]
-    for i in range(1, len(intervals)):
-        if intervals[i][0] >= end:
-            count += 1
-            end = intervals[i][1]
-    return count
+```
+Initial     Expand               Slide
+[ . . . ]   [ l . . . r ]        [ . l . . r ]
+              ↑     ↑               ↑     ↑
+            Expand               Slide
 ```
 
-### ✅ Minimum Number of Coins
 ```python
-def min_coins(coins, amount):
-    coins.sort(reverse=True)
-    count = 0
-    for coin in coins:
-        while amount >= coin:
-            amount -= coin
-            count += 1
-    return count if amount == 0 else -1
-```
+# Expand example:
+right += 1
 
-### ✅ Jump Game
-```python
-def can_jump(nums):
-    max_reach = 0
-    for i, num in enumerate(nums):
-        if i > max_reach:
-            return False
-        max_reach = max(max_reach, i + num)
-    return True
-```
-
-### ✅ Fractional Knapsack
-```python
-def fractional_knapsack(items, capacity):
-    items.sort(key=lambda x: x[1]/x[0], reverse=True)
-    total_value = 0
-    for weight, value in items:
-        if capacity >= weight:
-            capacity -= weight
-            total_value += value
-        else:
-            total_value += value * (capacity / weight)
-            break
-    return total_value
+# Slide example:
+if <condition>:
+    left += 1
+else:
+    right += 1
 ```
 
 ---
 
-## 🧠 Greedy vs. DP (Dynamic Programming)
+## 🧪 Examples with Patterns
 
-| Feature | Greedy | Dynamic Programming |
-|--------|--------|---------------------|
-| Choice | Local optimal | All combinations |
-| Memory | Minimal | Uses memoization/tabulation |
-| Guarantee | May fail | Always correct if problem fits |
+### ✅ Example 1: Maximum Sum of Subarray of Size K
 
-### 🔍 Case Study: 0/1 Knapsack Problem
-
-> 🔗 [LeetCode - 0/1 Knapsack Variant](https://leetcode.com/problems/ones-and-zeroes/) (or classical version)
-
-- You are given items with weights and values. You want to pick a subset with max value such that total weight ≤ capacity.
-- **Greedy fails** if you pick by value/weight ratio because you can't break items.
-
-#### ❌ Greedy Approach:
 ```python
-# Pick highest value/weight — fails
-items.sort(key=lambda x: x.value/x.weight, reverse=True)
-total_weight = 0
-value = 0
-for item in items:
-    if total_weight + item.weight <= capacity:
-        total_weight += item.weight
-        value += item.value
+def max_sum_subarray(nums, k):
+    max_sum = window_sum = sum(nums[:k])
+    for i in range(k, len(nums)):
+        window_sum += nums[i] - nums[i - k]
+        max_sum = max(max_sum, window_sum)
+    return max_sum
 ```
-> ❗This can miss optimal combinations. Example:
-- Item A: weight=3, value=60
-- Item B: weight=2, value=50
-- Item C: weight=1, value=30
 
-Greedy picks A (60), skips B+C (50+30=80)
+🧠 *Pattern: Fixed-size window*
 
-#### ✅ DP Approach:
+---
+
+### ✅ Example 2: Longest Substring Without Repeating Characters
+
 ```python
-def knapsack(weights, values, capacity):
-    n = len(weights)
-    dp = [[0]*(capacity+1) for _ in range(n+1)]
-    for i in range(1, n+1):
-        for w in range(capacity+1):
-            if weights[i-1] <= w:
-                dp[i][w] = max(dp[i-1][w], dp[i-1][w - weights[i-1]] + values[i-1])
+def length_of_longest_substring(s):
+    seen = set()
+    left = max_len = 0
+    for right in range(len(s)):
+        while s[right] in seen:
+            seen.remove(s[left])
+            left += 1
+        seen.add(s[right])
+        max_len = max(max_len, right - left + 1)
+    return max_len
+```
+
+🧠 *Pattern: Variable-size window + Set*
+
+---
+
+### ✅ Example 3: Minimum Size Subarray Sum ≥ Target
+
+```python
+def min_subarray_len(target, nums):
+    total = left = 0
+    min_len = float('inf')
+
+    for right in range(len(nums)):
+        total += nums[right]
+        while total >= target:
+            min_len = min(min_len, right - left + 1)
+            total -= nums[left]
+            left += 1
+
+    return 0 if min_len == float('inf') else min_len
+```
+
+🧠 *Pattern: Shrink-to-fit variable-size window*
+
+---
+
+### ✅ Example 4: Permutation in String
+
+Check if one string is a permutation of a substring of another string.
+
+```python
+from collections import Counter
+
+def check_inclusion(s1, s2):
+    if len(s1) > len(s2):
+        return False
+
+    s1_count = Counter(s1)
+    window = Counter()
+
+    for i in range(len(s2)):
+        window[s2[i]] += 1
+        if i >= len(s1):
+            if window[s2[i - len(s1)]] == 1:
+                del window[s2[i - len(s1)]]
             else:
-                dp[i][w] = dp[i-1][w]
-    return dp[n][capacity]
+                window[s2[i - len(s1)]] -= 1
+        if window == s1_count:
+            return True
+    return False
 ```
 
-✅ **DP considers all combinations** and finds the globally best solution.
-
-### 🧠 Spotting Greedy vs DP:
-- If problem allows "splitting" or local max leads to global max → Greedy might work.
-- If combinations must be considered and optimal depends on previous states → Use DP.
+🧠 *Pattern: Fixed-size + Frequency Matching*
 
 ---
 
-## ⏱ Time Complexity
+## 📊 Time Complexity
 
-Usually **O(n log n)** for sorting + **O(n)** iteration in Greedy. DP usually requires **O(n × capacity)** or similar.
+Sliding window typically brings **O(n)** time complexity instead of O(n²).
 
 ---
 
@@ -231,21 +174,20 @@ Usually **O(n log n)** for sorting + **O(n)** iteration in Greedy. DP usually re
 
 | Problem | Type | LeetCode |
 |--------|------|----------|
-| Jump Game | Reachability | [Link](https://leetcode.com/problems/jump-game/) |
-| Assign Cookies | Optimization | [Link](https://leetcode.com/problems/assign-cookies/) |
-| Gas Station | Circular Greedy | [Link](https://leetcode.com/problems/gas-station/) |
-| Partition Labels | Greedy Partitioning | [Link](https://leetcode.com/problems/partition-labels/) |
-| Task Scheduler | Job Scheduling | [Link](https://leetcode.com/problems/task-scheduler/) |
-| 0/1 Knapsack | DP Required | [Link](https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/) |
+| Maximum Sum of Subarray of Size K | Fixed-size | [Link](https://leetcode.com/problems/max-consecutive-ones-iii/) |
+| Longest Substring Without Repeating Characters | Variable-size | [Link](https://leetcode.com/problems/longest-substring-without-repeating-characters/) |
+| Minimum Size Subarray Sum | Variable-size | [Link](https://leetcode.com/problems/minimum-size-subarray-sum/) |
+| Permutation in String | Fixed-size + Count Map | [Link](https://leetcode.com/problems/permutation-in-string/) |
+| Longest Substring with At Most K Distinct Characters | Variable-size + Hash Map | [Link](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/) |
 
 ---
 
 ## 🧠 Summary
 
-- Greedy is efficient, but not always correct — validate assumptions.
-- Look for **greedy choice** and **optimal substructure**.
-- Use it in combination with sorting, heaps, or priority queues.
-- If greedy fails, try **Dynamic Programming** to explore all combinations.
-- Practice with classic problems to build pattern recognition.
+| Feature | Fixed Window | Dynamic Window |
+|--------|---------------|----------------|
+| Size | Constant `k` | Varies based on condition |
+| Adjust | Move both pointers | Expand/shrink dynamically |
+| Use for | Known size problems | Conditional subarrays |
 
 ---
