@@ -76,12 +76,6 @@ As previously mentioned, the `while` loop terminates once we’ve narrowed the s
 
 ---
 
-### **4. Returning the Correct Value**
-
-As previously mentioned, the `while` loop terminates once we’ve narrowed the search space down to a final value (assuming no value was returned during earlier iterations), pointed at by both `left` and `right`.
-
----
-
 ### **Time Complexity**
 
 The time complexity of the binary search is O(log(n)), where n is the number of values in the search space. The algorithm is logarithmic because, in each iteration of the algorithm, it divides the search space in half until a single value is located, or no value is found. This reduction by half in each iteration is characteristic of logarithmic behavior.
