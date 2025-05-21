@@ -182,6 +182,91 @@ Sliding window typically brings **O(n)** time complexity instead of O(n²).
 
 ---
 
+# Sliding Window Practice: Classwork & Homework
+
+This document includes two classwork and two homework problems using both fixed-size and dynamic-size sliding window techniques, curated from LeetCode.
+
+---
+
+## 🧠 Classwork: Fixed-size Sliding Window
+**Problem:** [Maximum Sum of Distinct Subarrays With Length K](https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/)
+
+**Description:**  
+Given an integer array `nums` and an integer `k`, find the maximum sum of all subarrays of length `k` where all elements are distinct. If no such subarray exists, return `0`.
+
+**Example:**
+
+```bash
+Input: nums = [1,5,4,2,9,9,9], k = 3
+Output: 15
+ ```
+
+---
+
+
+**Note:**  
+This problem emphasizes the use of a fixed-size sliding window while ensuring all elements within the window are unique.
+
+---
+
+## 🧠 Classwork: Dynamic-size Sliding Window
+**Problem:** [Longest Substring with At Most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/)
+
+**Description:**  
+Given a string `s`, return the length of the longest substring that contains at most two distinct characters.
+
+**Example:**
+
+```bash
+Input: s = "eceba"
+Output: 3
+```
+Explanation: The substring is "ece", which contains 2 distinct characters.
+
+
+**Note:**  
+This problem demonstrates the use of a dynamic sliding window to find the longest substring with a constraint on the number of distinct characters.
+
+---
+
+## 🏠 Homework: Fixed-size Sliding Window
+**Problem:** [Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i/)
+
+**Description:**  
+You are given an integer array `nums` consisting of `n` elements, and an integer `k`. Find the contiguous subarray of length `k` that has the maximum average value, and return this value.
+
+**Example:**
+
+```bash
+Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75
+```
+
+
+**Note:**  
+This problem applies a fixed-size sliding window to track the sum of elements and compute the maximum average efficiently.
+
+---
+
+## 🏠 Homework: Dynamic-size Sliding Window
+**Problem:** [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+
+**Description:**  
+Given a string `s`, find the length of the longest substring without repeating characters.
+
+**Example:**
+
+```bash
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
+```
+
+**Note:**  
+This problem utilizes a dynamic sliding window to adjust the window size based on the uniqueness of characters.
+
+
+
 ## 🧠 Summary
 
 | Feature | Fixed Window | Dynamic Window |

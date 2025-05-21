@@ -240,6 +240,56 @@ Usually **O(n log n)** for sorting + **O(n)** iteration in Greedy. DP usually re
 
 ---
 
+## 🧾 Problem Descriptions for Practice
+
+### 🚗 Gas Station (In-Class)
+
+**Problem Statement:**
+Given two arrays `gas` and `cost`, return the starting station index to complete a circular tour, or -1 if it's not possible.
+
+**Input Format:**
+- `gas`: List of gas units at each station
+- `cost`: List of fuel cost to reach next station
+
+**Constraints:**
+- `1 <= gas.length <= 10^5`
+- `0 <= gas[i], cost[i] <= 10^4`
+
+**Output Format:**
+- Integer: valid starting index or -1
+
+**Sample Test Case:**
+```plaintext
+gas = [1, 2, 3, 4, 5]
+cost = [3, 4, 5, 1, 2]
+Output: 3
+```
+
+---
+
+### 📅 Activity Selection (Homework)
+
+**Problem Statement:**
+Given `n` activities with start and end times, select the maximum number of non-overlapping activities.
+
+**Input Format:**
+- `intervals`: List of `[start, end]` pairs
+
+**Constraints:**
+- `1 <= n <= 10^4`
+- `0 <= start < end <= 10^4`
+
+**Output Format:**
+- Integer: max number of non-overlapping activities
+
+**Sample Test Case:**
+```plaintext
+intervals = [[1,3], [2,4], [3,5], [0,6], [5,7]]
+Output: 3
+```
+
+---
+
 ## 🧠 Summary
 
 - Greedy is efficient, but not always correct — validate assumptions.
@@ -249,3 +299,4 @@ Usually **O(n log n)** for sorting + **O(n)** iteration in Greedy. DP usually re
 - Practice with classic problems to build pattern recognition.
 
 ---
+
