@@ -1,4 +1,4 @@
-=# 🚀 Two Pointers Technique Lecture
+# 🚀 Two Pointers Technique Lecture
 
 ## 🧠 1. Introduction
 The Two Pointers technique is a powerful method used in algorithm design to solve problems involving linear data structures such as arrays or linked lists. It uses two indices (or pointers) that move through the data structure in a coordinated way to accomplish a task efficiently.
